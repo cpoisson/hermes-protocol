@@ -294,6 +294,13 @@ macro_rules! impl_component_facades_for {
                     move |p| handler.call(p),
                 )
             }
+
+            fn subscribe_loaded(&self, handler: Callback0) -> Fallible<()> {
+                self.mqtt_handler.subscribe(
+                    &HermesTopic::Component(None, self.component, ComponentCommand::Loaded),
+                    move || handler.call(),
+                )
+            }
         }
 
         impl ComponentBackendFacade for $t {
@@ -316,6 +323,14 @@ macro_rules! impl_component_facades_for {
                     &HermesTopic::Component(None, self.component, ComponentCommand::Error),
                     error,
                 )
+            }
+
+            fn publish_loaded(&self) -> Fallible<()> {
+                self.mqtt_handler.publish(&HermesTopic::Component(
+                    None,
+                    self.component,
+                    ComponentCommand::Loaded,
+                ))
             }
         }
     };
@@ -399,6 +414,13 @@ macro_rules! impl_identifiable_component_facades_for {
                     move |p| handler.call(p),
                 )
             }
+
+            fn subscribe_loaded(&self, site_id: String, handler: Callback0) -> Fallible<()> {
+                self.mqtt_handler.subscribe(
+                    &HermesTopic::Component(Some(site_id), self.component, ComponentCommand::Loaded),
+                    move || handler.call(),
+                )
+            }
         }
 
         impl IdentifiableComponentBackendFacade for $t {
@@ -421,6 +443,14 @@ macro_rules! impl_identifiable_component_facades_for {
                     &HermesTopic::Component(Some(site_id), self.component, ComponentCommand::Error),
                     error,
                 )
+            }
+
+            fn publish_loaded(&self, site_id: String) -> Fallible<()> {
+                self.mqtt_handler.publish(&HermesTopic::Component(
+                    Some(site_id),
+                    self.component,
+                    ComponentCommand::Loaded,
+                ))
             }
         }
     };
