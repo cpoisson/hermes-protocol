@@ -922,6 +922,11 @@ struct InjectionStatus {
 #[derive(Debug)]
 struct InjectionStatusRequest {}
 
+#[derive(Debug)]
+struct InjectionComplete {
+    message: InjectionCompleteMessage,
+}
+
 impl InjectionFacade for InProcessComponent<Injection> {
     fn publish_injection_request(&self, request: InjectionRequestMessage) -> Fallible<()> {
         self.publish(InjectionPerform { request })
@@ -933,6 +938,10 @@ impl InjectionFacade for InProcessComponent<Injection> {
 
     fn subscribe_injection_status(&self, handler: Callback<InjectionStatusMessage>) -> Fallible<()> {
         subscribe!(self, InjectionStatus { status }, handler)
+    }
+
+    fn subscribe_injection_complete(&self, handler: Callback<InjectionCompleteMessage>) -> Fallible<()> {
+        subscribe!(self, InjectionComplete { message }, handler)
     }
 }
 
@@ -947,6 +956,10 @@ impl InjectionBackendFacade for InProcessComponent<Injection> {
 
     fn publish_injection_status(&self, status: InjectionStatusMessage) -> Fallible<()> {
         self.publish(InjectionStatus { status })
+    }
+
+    fn publish_injection_complete(&self, message: InjectionCompleteMessage) -> Fallible<()> {
+        self.publish(InjectionComplete { message })
     }
 }
 

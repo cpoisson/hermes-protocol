@@ -236,6 +236,7 @@ impl HermesTopic {
                 Component::Injection,
                 ComponentCommand::VersionRequest,
             )),
+            Some("complete") => Some(Injection(Complete)),
             Some("version") => Some(HermesTopic::Component(
                 None,
                 Component::Injection,
@@ -464,6 +465,7 @@ pub enum InjectionCommand {
     Perform,
     Status,
     StatusRequest,
+    Complete,
 }
 
 impl ToPath for InjectionCommand {}
@@ -701,6 +703,10 @@ mod tests {
             (
                 HermesTopic::Injection(InjectionCommand::StatusRequest),
                 "hermes/injection/statusRequest",
+            ),
+            (
+                HermesTopic::Injection(InjectionCommand::Complete),
+                "hermes/injection/complete",
             ),
         ]
     }
