@@ -7,7 +7,7 @@ use failure::Fallible;
 use failure::ResultExt;
 use ffi_utils::*;
 
-use crate::asr::CAsrTokenDoubleArray;
+use crate::asr::{CAsrTokenDoubleArray, CSpeakerIdArray};
 use crate::nlu::{CNluIntentClassifierResult, CNluSlotArray};
 
 #[repr(C)]
@@ -21,6 +21,8 @@ pub struct CIntentMessage {
     pub intent: *const CNluIntentClassifierResult,
     /// Nullable
     pub slots: *const CNluSlotArray,
+    /// Nullable
+    pub speaker_hypotheses: *const CSpeakerIdArray,
     /// Nullable, the first array level represents the asr invocation, the second one the tokens
     pub asr_tokens: *const CAsrTokenDoubleArray,
     /// Note: this value is optional. Any value not in [0,1] should be ignored.
@@ -45,6 +47,11 @@ impl CReprOf<hermes::IntentMessage> for CIntentMessage {
             intent: CNluIntentClassifierResult::c_repr_of(input.intent)?.into_raw_pointer(),
             slots: if !input.slots.is_empty() {
                 CNluSlotArray::c_repr_of(input.slots)?.into_raw_pointer()
+            } else {
+                null()
+            },
+            speaker_hypotheses: if let Some(speaker_hypotheses) = input.speaker_hypotheses {
+                CSpeakerIdArray::c_repr_of(speaker_hypotheses)?.into_raw_pointer()
             } else {
                 null()
             },
@@ -80,6 +87,9 @@ impl Drop for CIntentMessage {
         }
         if !self.asr_tokens.is_null() {
             let _ = unsafe { CAsrTokenDoubleArray::drop_raw_pointer(self.asr_tokens) };
+        }
+        if !self.speaker_hypotheses.is_null() {
+            let _ = unsafe { CSpeakerIdArray::drop_raw_pointer(self.speaker_hypotheses) };
         }
     }
 }

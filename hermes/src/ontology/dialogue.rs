@@ -1,4 +1,4 @@
-use super::asr::AsrToken;
+use super::asr::{AsrToken, SpeakerId};
 use super::nlu::{NluIntentClassifierResult, NluSlot};
 use super::HermesMessage;
 
@@ -17,6 +17,8 @@ pub struct IntentMessage {
     pub asr_tokens: Option<Vec<Vec<AsrToken>>>,
     /// Confidence of the asr capture
     pub asr_confidence: Option<f32>,
+    /// Optional list of the most probable speaker detected
+    pub speaker_hypotheses: Option<Vec<SpeakerId>>,
     /// The result of the intent classification
     pub intent: NluIntentClassifierResult,
     /// The detected slots, if any

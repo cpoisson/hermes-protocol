@@ -307,6 +307,16 @@ typedef struct {
 } CNluSlotArray;
 
 typedef struct {
+  const char *name;
+  float confidence;
+} CSpeakerId;
+
+typedef struct {
+  const CSpeakerId *const *entries;
+  int count;
+} CSpeakerIdArray;
+
+typedef struct {
   float start;
   float end;
 } CAsrDecodingDuration;
@@ -342,6 +352,10 @@ typedef struct {
    * Nullable
    */
   const CNluSlotArray *slots;
+  /**
+   * Nullable
+   */
+  const CSpeakerIdArray *speaker_hypotheses;
   /**
    * Nullable, the first array level represents the asr invocation, the second one the tokens
    */

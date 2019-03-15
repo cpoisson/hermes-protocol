@@ -186,6 +186,16 @@ typedef struct {
 } CAsrTokenArray;
 
 typedef struct {
+  const char *name;
+  float confidence;
+} CSpeakerId;
+
+typedef struct {
+  const CSpeakerId *const *entries;
+  int count;
+} CSpeakerIdArray;
+
+typedef struct {
   const char *text;
   /**
    * Nullable
@@ -198,6 +208,10 @@ typedef struct {
    * Nullable
    */
   const char *session_id;
+  /**
+   * Nullable
+   */
+  const CSpeakerIdArray *speaker_hypotheses;
 } CTextCapturedMessage;
 
 typedef struct {
@@ -334,6 +348,10 @@ typedef struct {
    * Nullable
    */
   const CNluSlotArray *slots;
+  /**
+   * Nullable
+   */
+  const CSpeakerIdArray *speaker_hypotheses;
   /**
    * Nullable, the first array level represents the asr invocation, the second one the tokens
    */
