@@ -2,8 +2,6 @@ language: python
 python:
   - 2.7
   - 3.5
-  - 3.6
-  - 3.7
 
 install:
   - pip install codecov
@@ -11,7 +9,7 @@ install:
 script:
   - mkdir ~/rust-installer
   - curl -sL https://static.rust-lang.org/rustup.sh -o ~/rust-installer/rustup.sh
-  - sh ~/rust-installer/rustup.sh --disable-sudo -y
+  - sh ~/rust-installer/rustup.sh -y
   - cargo build
   - cp target/debug/libhermes_ffi.so platforms/hermes-python/hermes_python/dylib
   - mkdir platforms/hermes-python/tests/roundtrip/debug
