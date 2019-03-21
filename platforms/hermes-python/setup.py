@@ -49,6 +49,7 @@ extras_require = {
         "pytest",
         "coverage",
         "pytest-cov",
+        "pytest-runner",
         "setuptools_rust",
     ],
 }
