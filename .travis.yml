@@ -11,13 +11,13 @@ install:
 script:
   - mkdir ~/rust-installer
   - curl -sL https://static.rust-lang.org/rustup.sh -o ~/rust-installer/rustup.sh
-  - sh ~/rust-installer/rustup.sh --prefix=~/rust --spec=stable --disable-sudo -y
+  - sh ~/rust-installer/rustup.sh --disable-sudo -y
   - cargo build
   - cp target/debug/libhermes_ffi.so platforms/hermes-python/hermes_python/dylib
   - mkdir platforms/hermes-python/tests/roundtrip/debug
   - cp target/debug/libhermes_ffi_test.so platforms/hermes-python/tests/roundtrip/debug
   - cd platforms/hermes-python
-  - pip install -r requirements/test
+  - pip install -r requirements/tests.txt
   - python setup.py test
 
 after_success:
