@@ -12,7 +12,7 @@ script:
   - sh ~/rust-installer/rustup.sh -y
   - source $HOME/.cargo/env
   - cargo build
-  - cp target/debug/libhermes_ffi.so platforms/hermes-python/hermes_python/dylib
+  - cp target/debug/libhermes_mqtt_ffi.so platforms/hermes-python/hermes_python/dylib
   - mkdir platforms/hermes-python/tests/roundtrip/debug
   - cp target/debug/libhermes_ffi_test.so platforms/hermes-python/tests/roundtrip/debug
   - cd platforms/hermes-python
