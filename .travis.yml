@@ -9,7 +9,9 @@ install:
   - pip install codecov
 
 script:
-  - curl https://sh.rustup.rs -sSf | sh
+  - mkdir ~/rust-installer
+  - curl -sL https://static.rust-lang.org/rustup.sh -o ~/rust-installer/rustup.sh
+  - sh ~/rust-installer/rustup.sh --prefix=~/rust --spec=stable --disable-sudo -y
   - cargo build
   - cp target/debug/libhermes_ffi.so platforms/hermes-python/hermes_python/dylib
   - mkdir platforms/hermes-python/tests/roundtrip/debug
