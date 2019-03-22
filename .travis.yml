@@ -18,6 +18,7 @@ script:
   - cd platforms/hermes-python
   - pip install -r requirements/tests.txt
   - python setup.py test
+  - cd ../../
   - codecov
 
 after_success:
